@@ -7,10 +7,13 @@ import javax.swing.JPanel;
 public class Elevator{
 	JPanel elevator;
 
-	public JPanel getElevator(int x){
+	public Elevator(){
 		elevator = new JPanel();
-		elevator.setBounds(x, 340, 50,100);
+		elevator.setBounds(100, 340, 50,100);
 		elevator.setBackground(Color.gray);
+	}
+	
+	public JPanel getElevator(){
 		return elevator;
 	}
 	
@@ -22,7 +25,7 @@ public class Elevator{
 		return elevator.getY();
 	}
 	
-	public void elevatorMove(int x, int y){
-		elevator.setBounds(x, y, 50, 100);
+	public void elevatorMove(int y){
+		elevator.setBounds(100, y, 50, 100);
 	}
 }

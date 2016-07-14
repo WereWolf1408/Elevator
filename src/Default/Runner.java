@@ -12,6 +12,7 @@ public class Runner {
 		ConstantVariable constantVariable = new ConstantVariable();
 		Storey storey = new Storey(constantVariable);
 		Elevator elevator = new Elevator();
+		System.out.println(elevator.getY());
 		House house = new House(storey, elevator);
 		HouseEngine engine = new HouseEngine(house);
 		house.init();

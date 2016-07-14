@@ -3,6 +3,7 @@ package house;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Stroke;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,12 +14,24 @@ public class House {
 	JFrame mainFraim = new JFrame("house elevator");
 	Storey storey;
 	Elevator elevator;
+	private ArrayList<JPanel> storeys = new ArrayList<>();
 	
 	public House(Storey storey, Elevator elevator){
 		setStorey(storey);
 		setElevator(elevator);
 	}
 	
+	
+	public ArrayList<JPanel> getStoreys() {
+		return storeys;
+	}
+
+
+	public void setStoreys(ArrayList<JPanel> storeys) {
+		this.storeys = storeys;
+	}
+
+
 	public Elevator getElevator() {
 		return elevator;
 	}
@@ -51,17 +64,16 @@ public class House {
 	private void createStoreys(){
 		int j = 120;
 		for (int i = 0; i < 3; i++){
-			mainFraim.add(storey.getPanel(j));
+			JPanel st = storey.getPanel(j);
+			storeys.add(st);
+			mainFraim.add(st);
 			j += 160;
 		}
 	}
 	
 	private void createElevator(){
-		int j = 50;
-		
 		for (int i = 0; i < 1; i++){
-			mainFraim.add(elevator.getElevator(j));
-			j +=50;
+			mainFraim.add(elevator.getElevator());
 		}
 	}
 	

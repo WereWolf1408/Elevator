@@ -8,6 +8,7 @@ import variable.ConstantVariable;
 
 public class Storey {
 	ConstantVariable constantVariable;
+	JPanel panel = null;
 	
 	public Storey(ConstantVariable constantVariable){
 		this.constantVariable = constantVariable;
@@ -22,10 +23,14 @@ public class Storey {
 	}
 
 	public JPanel getPanel(int y){
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBounds(0, y, constantVariable.getStoreyWidth(), constantVariable.getStoreyHeight());
 		panel.setBackground(Color.red);
 		panel.setVisible(true);
 		return panel;
+	}
+	
+	public int getY(){
+		return panel.getY();
 	}
 }
