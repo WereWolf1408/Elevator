@@ -8,44 +8,39 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import people.People;
+import variable.ConstantVariable;
 import elevator.Elevator;
 
 public class House {
 	JFrame mainFraim = new JFrame("house elevator");
-	Storey storey;
 	private ArrayList<Elevator> elevators = new ArrayList<>();
-	private ArrayList<JPanel> storeys = new ArrayList<>();
+	private ArrayList<Storey> storeys = new ArrayList<>();
+	private ArrayList<People> peoples = new ArrayList<>();
+	private ConstantVariable cv;
 	
-	public House(Storey storey, ArrayList<Elevator> elevators){
+	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
+			ArrayList<Storey> storeys){
 		this.elevators = elevators;
-		this.storey = storey;
+		this.peoples = peoples;
+		this.cv = cv;
+		this.storeys = storeys;
 	}
 	
 	
-	public ArrayList<JPanel> getStoreys() {
+	public ArrayList<Storey> getStoreys() {
 		return storeys;
 	}
 
 
-	public void setStoreys(ArrayList<JPanel> storeys) {
-		this.storeys = storeys;
+	public ArrayList<People> getPeoples() {
+		return peoples;
 	}
-
-	
 
 	public ArrayList<Elevator> getElevators() {
 		return elevators;
 	}
 
-
-	public Storey getStorey() {
-		return storey;
-	}
-
-	public void setStorey(Storey storey) {
-		this.storey = storey;
-	}
-	
 	public JFrame getJFrame(){
 		return mainFraim;
 	}
@@ -54,21 +49,24 @@ public class House {
 		createFrame();
 		createStoreys();
 		createElevator();
+		createPeoples();
 	}
 	
 	private void createStoreys(){
-		int j = 120;
-		for (int i = 0; i < 3; i++){
-			JPanel st = storey.getPanel(j);
-			storeys.add(st);
-			mainFraim.add(st);
-			j += 160;
+		for (int i = 0; i < storeys.size(); i++){
+			mainFraim.add(storeys.get(i).getStorey());
 		}
 	}
 	
 	private void createElevator(){
 		for (int i = 0; i < elevators.size(); i++){
 			mainFraim.add(elevators.get(i).getElevator());
+		}
+	}
+	
+	private void createPeoples(){
+		for (int i = 0; i < peoples.size(); i++){
+			mainFraim.add(peoples.get(i).getPeople());
 		}
 	}
 	

@@ -2,8 +2,12 @@ package Default;
 
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import people.People;
 import elevator.Elevator;
 import engine.HouseElevatorEngine;
+import engine.PeopleEngine;
 import house.House;
 import house.Storey;
 import variable.ConstantVariable;
@@ -12,24 +16,42 @@ public class Runner {
 	
 	public static void main(String[] args){
 		ArrayList<Elevator> elevators = new ArrayList<>();
+		ArrayList<People> peoples = new ArrayList<>();
+		ArrayList<Storey> storeys = new ArrayList<>();
 		ConstantVariable constantVariable = new ConstantVariable();
-		Storey storey = new Storey(constantVariable);
+		
+		for(int i = 0; i < constantVariable.getStoreyheight().length; i++){
+			Storey storey = new Storey(constantVariable);
+			storey.setStoreyHeight(constantVariable.getStoreyheight()[i]);
+			storeys.add(storey);
+		}
 
 		elevators.add(new Elevator(constantVariable, 100, "elevator1"));
 		elevators.add(new Elevator(constantVariable, 200, "elevator2"));
 		elevators.add(new Elevator(constantVariable, 300, "elevator3"));
 		elevators.add(new Elevator(constantVariable, 400, "elevator4"));
+		
+		peoples.add(new People(constantVariable));
+		peoples.add(new People(constantVariable));
 
-		House house = new House(storey, elevators);
+		House house = new House(elevators, peoples, constantVariable, storeys);
+		
 		HouseElevatorEngine engine = new HouseElevatorEngine(house, elevators.get(0));
 		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
 		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
 		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
 		
+		PeopleEngine pe = new PeopleEngine(peoples.get(0));
+		
 		house.init();
+		
 		engine.start();
 		engine1.start();
 		engine2.start();
 		engine3.start();
+		
+		pe.start();
+		
+		
 	}
 }

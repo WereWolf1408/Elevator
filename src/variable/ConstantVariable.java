@@ -7,9 +7,20 @@ public class ConstantVariable {
 	private final int STOREY_WIDTH = FRAME_WIDTH;
 	private final int ELEVATOR_HEIGHT = 50;
 	private final int ELEVATOR_WIDTH = 100;
+	private final int PEOPLE_HEIGHT = 20;
+	private final int PEOPLE_WIDTH = 20;
+	private int[] storeyheight = {120, 280, 440};
 	
 	
-	
+	public int[] getStoreyheight() {
+		return storeyheight;
+	}
+	public int getPEOPLE_HEIGHT() {
+		return PEOPLE_HEIGHT;
+	}
+	public int getPEOPLE_WIDTH() {
+		return PEOPLE_WIDTH;
+	}
 	public int getELEVATOR_HEIGHT() {
 		return ELEVATOR_HEIGHT;
 	}

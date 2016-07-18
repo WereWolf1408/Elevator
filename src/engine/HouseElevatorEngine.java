@@ -38,7 +38,7 @@ public class HouseElevatorEngine extends Thread {
 	}
 	
 	private void storeys(){
-		ArrayList<JPanel> storeys = house.getStoreys();
+		ArrayList<Storey> storeys = house.getStoreys();
 		for (int i = 0; i < storeys.size(); i++){
 			if ((y+100) == storeys.get(i).getY()){
 				System.out.println(elevator.getElevatorName() + " storey = " + i);
