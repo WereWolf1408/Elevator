@@ -13,12 +13,12 @@ import elevator.Elevator;
 public class House {
 	JFrame mainFraim = new JFrame("house elevator");
 	Storey storey;
-	Elevator elevator;
+	private ArrayList<Elevator> elevators = new ArrayList<>();
 	private ArrayList<JPanel> storeys = new ArrayList<>();
 	
-	public House(Storey storey, Elevator elevator){
-		setStorey(storey);
-		setElevator(elevator);
+	public House(Storey storey, ArrayList<Elevator> elevators){
+		this.elevators = elevators;
+		this.storey = storey;
 	}
 	
 	
@@ -31,14 +31,10 @@ public class House {
 		this.storeys = storeys;
 	}
 
+	
 
-	public Elevator getElevator() {
-		return elevator;
-	}
-
-
-	public void setElevator(Elevator elevator) {
-		this.elevator = elevator;
+	public ArrayList<Elevator> getElevators() {
+		return elevators;
 	}
 
 
@@ -58,7 +54,6 @@ public class House {
 		createFrame();
 		createStoreys();
 		createElevator();
-		logger("create main panel");
 	}
 	
 	private void createStoreys(){
@@ -72,8 +67,8 @@ public class House {
 	}
 	
 	private void createElevator(){
-		for (int i = 0; i < 1; i++){
-			mainFraim.add(elevator.getElevator());
+		for (int i = 0; i < elevators.size(); i++){
+			mainFraim.add(elevators.get(i).getElevator());
 		}
 	}
 	
@@ -82,9 +77,5 @@ public class House {
 		mainFraim.setSize(600,600);
 		mainFraim.setBackground(Color.gray);
 		mainFraim.setVisible(true);
-	}
-	
-	private static void logger(String value){
-		System.out.println(value);
 	}
 }

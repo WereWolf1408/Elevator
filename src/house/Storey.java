@@ -24,7 +24,7 @@ public class Storey {
 
 	public JPanel getPanel(int y){
 		panel = new JPanel();
-		panel.setBounds(0, y, constantVariable.getStoreyWidth(), constantVariable.getStoreyHeight());
+		panel.setBounds(0, y, constantVariable.getSTOREY_WIDTH(), constantVariable.getSTOREY_HEIGHT());
 		panel.setBackground(Color.red);
 		panel.setVisible(true);
 		return panel;
