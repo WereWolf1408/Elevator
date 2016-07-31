@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+
 import elevator.Elevator;
 import house.House;
 import people.People;
@@ -26,9 +28,17 @@ public class PeopleEngine extends Thread {
 	}
 	
 	//проверка зашел ли человек в лифт
-	private void peopleInElevator(int position) throws InterruptedException{
+	private void comeInElevator(int position) throws InterruptedException{
 		if (position >= elevator.getElevatorInside()){
+			elevator.addElevatorPeople(people);
+			house.getPeoples().remove(people);
 			house.getElevatorCondition().signalAll();
+			house.getWaitInElevator().await();
+		}
+	}
+	
+	private void checkElevatorCapacity() throws InterruptedException{
+		if (elevator.getPeopleInElevator().size() >= elevator.getMAX_CAPACITY()){
 			house.getPeopleCondition().await();
 		}
 	}
@@ -42,7 +52,7 @@ public class PeopleEngine extends Thread {
 			while(true){
 				Thread.sleep(10);
 				people.move(peoplePosition++);
-				peopleInElevator(peoplePosition);
+				comeInElevator(peoplePosition);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -29,6 +29,7 @@ public class House {
 	private Condition peopleCondition = lock.newCondition();
 	//для людей которые уже приехали на свой этаж и вышли из лифта
 	private Condition finalDestination = lock.newCondition();
+	private Condition waitInElevator = lock.newCondition();
 	
 	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
 			ArrayList<Storey> storeys){
@@ -46,6 +47,10 @@ public class House {
 		this.curElevatorStorey.put(storey, elevator);
 	}
 	
+	public Condition getWaitInElevator() {
+		return waitInElevator;
+	}
+
 	public void removeElevatorStorey(int i){
 		this.curElevatorStorey.remove(i);
 	}

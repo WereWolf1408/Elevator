@@ -1,9 +1,14 @@
 package elevator;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JPanel ;
 
+import people.People;
 import variable.ConstantVariable;
 
 public class Elevator{
@@ -11,11 +16,12 @@ public class Elevator{
 	private ConstantVariable cv;
 	private String elevatorName;
 	private int distance;
-	private String direction = "up";
+	private int direction = 0;
 	private final int MAX_CAPACITY = 3;
-	private int elevatorCapacity = 10;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	private int elevatorInside;
+	private ArrayList<People> peopleInElevator = new ArrayList<>();
+	
 
 	public Elevator(ConstantVariable cv, int distance, int elevatorInside, String elevatorName){
 		this.elevatorName = elevatorName;
@@ -27,27 +33,27 @@ public class Elevator{
 		elevator.setBackground(Color.gray);
 	}
 	
-	public int getElevatorCapacity() {
-		return elevatorCapacity;
+	public ArrayList<People> getPeopleInElevator() {
+		return peopleInElevator;
 	}
 
-	public void addElevatorCapacity() {
-		this.elevatorCapacity++;
+	public void addElevatorPeople(People people){
+		peopleInElevator.add(people);
 	}
 	
-	public void decElevatorCapacity(){
-		this.elevatorCapacity--;
+	public void removeElevatorPeople(People people){
+		peopleInElevator.remove(people);
 	}
-
+	
 	public int getMAX_CAPACITY() {
 		return MAX_CAPACITY;
 	}
 
-	public String getDirection() {
+	public int getDirection() {
 		return direction;
 	}
 
-	public void setDirection(String direction) {
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
