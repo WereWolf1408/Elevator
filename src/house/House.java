@@ -4,6 +4,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Stroke;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +23,10 @@ public class House {
 	private ArrayList<Storey> storeys = new ArrayList<>();
 	private ArrayList<People> peoples = new ArrayList<>();
 	private ConstantVariable cv;
+	private Map<Integer, Elevator> curElevatorStorey = new HashMap<Integer, Elevator>();
+	private  Lock lock = new ReentrantLock();
+	private  Condition elevatorCondition = lock.newCondition();
+	private  Condition peopleCondition = lock.newCondition();
 	
 	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
 			ArrayList<Storey> storeys){
@@ -27,7 +36,30 @@ public class House {
 		this.storeys = storeys;
 	}
 	
+	public Map<Integer, Elevator> getCurElevatorStorey() {
+		return curElevatorStorey;
+	}
+
+	public void addtCurElevatorStorey(int storey, Elevator elevator) {
+		this.curElevatorStorey.put(storey, elevator);
+	}
 	
+	public void removeElevatorStorey(int i){
+		this.curElevatorStorey.remove(i);
+	}
+
+	public Condition getPeopleCondition() {
+		return peopleCondition;
+	}
+
+	public Condition getElevatorCondition() {
+		return elevatorCondition;
+	}
+
+	public Lock getLock() {
+		return lock;
+	}
+
 	public ArrayList<Storey> getStoreys() {
 		return storeys;
 	}

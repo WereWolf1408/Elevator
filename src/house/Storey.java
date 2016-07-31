@@ -10,8 +10,12 @@ public class Storey {
 	ConstantVariable constantVariable;
 	JPanel storey = null;
 	
-	public Storey(ConstantVariable constantVariable){
+	public Storey(ConstantVariable constantVariable, int y){
 		this.constantVariable = constantVariable;
+		storey = new JPanel();
+		storey.setBounds(0, y, constantVariable.getSTOREY_WIDTH(), constantVariable.getSTOREY_HEIGHT());
+		storey.setBackground(Color.red);
+		storey.setVisible(true);
 	}
 	
 	public ConstantVariable getConstantVariable() {
@@ -20,13 +24,6 @@ public class Storey {
 
 	public void setConstantVariable(ConstantVariable constantVariable) {
 		this.constantVariable = constantVariable;
-	}
-
-	public void setStoreyHeight(int y){
-		storey = new JPanel();
-		storey.setBounds(0, y, constantVariable.getSTOREY_WIDTH(), constantVariable.getSTOREY_HEIGHT());
-		storey.setBackground(Color.red);
-		storey.setVisible(true);
 	}
 	
 	public JPanel getStorey(){

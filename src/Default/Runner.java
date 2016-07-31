@@ -21,8 +21,7 @@ public class Runner {
 		ConstantVariable constantVariable = new ConstantVariable();
 		
 		for(int i = 0; i < constantVariable.getStoreyheight().length; i++){
-			Storey storey = new Storey(constantVariable);
-			storey.setStoreyHeight(constantVariable.getStoreyheight()[i]);
+			Storey storey = new Storey(constantVariable, constantVariable.getStoreyheight()[i]);
 			storeys.add(storey);
 		}
 
@@ -38,20 +37,20 @@ public class Runner {
 		
 		HouseElevatorEngine engine = new HouseElevatorEngine(house, elevators.get(0));
 		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
-		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
-		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
+//		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
+//		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
 		
-		PeopleEngine pe = new PeopleEngine(peoples.get(0));
+		PeopleEngine pe = new PeopleEngine(peoples.get(0), house);
+		PeopleEngine pe1 = new PeopleEngine(peoples.get(1), house);
 		
 		house.init();
 		
 		engine.start();
-		engine1.start();
-		engine2.start();
-		engine3.start();
+//		engine1.start();
+//		engine2.start();
+//		engine3.start();
 		
 		pe.start();
-		
-		
+		pe1.start();
 	}
 }

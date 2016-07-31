@@ -1,6 +1,8 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JPanel;
 
@@ -29,33 +31,43 @@ public class HouseElevatorEngine extends Thread {
 	}
 	
 	private void elevatorMove(){
+		checkDirection();
+		
 		if (direction){
 			elevator.move(y += 1);
 		} else {
 			elevator.move(y -= 1);
 		}
-		checkDirection();
 	}
 	
-	private void storeys(){
+	private boolean checkStoreys() throws InterruptedException{
 		ArrayList<Storey> storeys = house.getStoreys();
 		for (int i = 0; i < storeys.size(); i++){
 			if ((y+100) == storeys.get(i).getY()){
 				System.out.println(elevator.getElevatorName() + " storey = " + i);
+				house.addtCurElevatorStorey(i, elevator);
+				house.getPeopleCondition().signalAll();
+				house.getElevatorCondition().await();
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	@Override
 	public void run(){
-		while(true){
-			try {
+		house.getLock().lock();
+		try {
+			while(true){	
 				Thread.sleep(10);
 				elevatorMove();
-				storeys();
-			} catch (Exception e) {
-				e.printStackTrace();
+				checkStoreys();
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally{
+			house.getLock().unlock();
+			System.out.println(elevator.getClass() + "release lock");
 		}
 	}
 }
