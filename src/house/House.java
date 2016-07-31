@@ -24,9 +24,11 @@ public class House {
 	private ArrayList<People> peoples = new ArrayList<>();
 	private ConstantVariable cv;
 	private Map<Integer, Elevator> curElevatorStorey = new HashMap<Integer, Elevator>();
-	private  Lock lock = new ReentrantLock();
-	private  Condition elevatorCondition = lock.newCondition();
-	private  Condition peopleCondition = lock.newCondition();
+	private Lock lock = new ReentrantLock();
+	private Condition elevatorCondition = lock.newCondition();
+	private Condition peopleCondition = lock.newCondition();
+	//для людей которые уже приехали на свой этаж и вышли из лифта
+	private Condition finalDestination = lock.newCondition();
 	
 	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
 			ArrayList<Storey> storeys){

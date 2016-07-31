@@ -7,6 +7,7 @@ import people.People;
 public class PeopleEngine extends Thread {
 	private People people;
 	private House house;
+	private Elevator elevator;
 	
 	public PeopleEngine(People people, House house){
 		this.people = people;
@@ -15,12 +16,20 @@ public class PeopleEngine extends Thread {
 	
 	//проверка не выйдет из цикла пока лифт не окажеться на том же этаже что и человек
 	private void checkElevatorStorey() throws InterruptedException{
-		Elevator elevator = null;
 		while(elevator == null){
 			elevator = house.getCurElevatorStorey().get(people.getStorey());
 			if(elevator == null){
+				house.getElevatorCondition().signalAll();
 				house.getPeopleCondition().await();
 			}
+		}
+	}
+	
+	//проверка зашел ли человек в лифт
+	private void peopleInElevator(int position) throws InterruptedException{
+		if (position >= elevator.getElevatorInside()){
+			house.getElevatorCondition().signalAll();
+			house.getPeopleCondition().await();
 		}
 	}
 	
@@ -29,15 +38,11 @@ public class PeopleEngine extends Thread {
 		house.getLock().lock();
 		try {
 			checkElevatorStorey();
-			int x = 10;
-			int a = 0;
+			int peoplePosition = people.getStartPosition();
 			while(true){
-				if (a == 200){
-					house.getPeopleCondition().await();
-				}
-				a++;
 				Thread.sleep(10);
-				people.move(x++);
+				people.move(peoplePosition++);
+				peopleInElevator(peoplePosition);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

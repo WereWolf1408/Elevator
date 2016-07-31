@@ -40,7 +40,7 @@ public class HouseElevatorEngine extends Thread {
 		}
 	}
 	
-	private boolean checkStoreys() throws InterruptedException{
+	private void checkStoreys() throws InterruptedException{
 		ArrayList<Storey> storeys = house.getStoreys();
 		for (int i = 0; i < storeys.size(); i++){
 			if ((y+100) == storeys.get(i).getY()){
@@ -48,10 +48,8 @@ public class HouseElevatorEngine extends Thread {
 				house.addtCurElevatorStorey(i, elevator);
 				house.getPeopleCondition().signalAll();
 				house.getElevatorCondition().await();
-				return true;
 			}
 		}
-		return false;
 	}
 	
 	@Override

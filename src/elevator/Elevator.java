@@ -14,9 +14,12 @@ public class Elevator{
 	private String direction = "up";
 	private final int MAX_CAPACITY = 3;
 	private int elevatorCapacity = 10;
+	//координата при достижении который человек считаеться вошедшим в лифт
+	private int elevatorInside;
 
-	public Elevator(ConstantVariable cv, int distance, String elevatorName){
+	public Elevator(ConstantVariable cv, int distance, int elevatorInside, String elevatorName){
 		this.elevatorName = elevatorName;
+		this.elevatorInside = elevatorInside;
 		this.cv = cv;
 		this.distance = distance;
 		elevator = new JPanel();
@@ -64,6 +67,10 @@ public class Elevator{
 		return elevator.getY();
 	}
 	
+	public int getElevatorInside() {
+		return elevatorInside;
+	}
+
 	public void move(int y){
 		elevator.setBounds(distance, y,  cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 	}

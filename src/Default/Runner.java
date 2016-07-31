@@ -25,13 +25,13 @@ public class Runner {
 			storeys.add(storey);
 		}
 
-		elevators.add(new Elevator(constantVariable, 100, "elevator1"));
-		elevators.add(new Elevator(constantVariable, 200, "elevator2"));
-		elevators.add(new Elevator(constantVariable, 300, "elevator3"));
-		elevators.add(new Elevator(constantVariable, 400, "elevator4"));
+		elevators.add(new Elevator(constantVariable, 100, 120, "elevator1"));
+		elevators.add(new Elevator(constantVariable, 200, 220, "elevator2"));
+		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3"));
+		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4"));
 		
-		peoples.add(new People(constantVariable));
-		peoples.add(new People(constantVariable));
+		peoples.add(new People(constantVariable, 10));
+		peoples.add(new People(constantVariable, 10));
 
 		House house = new House(elevators, peoples, constantVariable, storeys);
 		
