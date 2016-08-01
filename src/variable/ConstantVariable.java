@@ -6,11 +6,11 @@ public class ConstantVariable {
 	private final int FRAME_WIDTH = 600;
 	private final int STOREY_WIDTH = FRAME_WIDTH;
 	private final int ELEVATOR_HEIGHT = 50;
-	private final int ELEVATOR_WIDTH = 100;
+	private final int ELEVATOR_WIDTH = 60;
 	private final int PEOPLE_HEIGHT = 20;
 	private final int PEOPLE_WIDTH = 20;
-	private final int STOREY_COUNT = 3;
-	private int[] storeyheight = {120, 280, 440};
+	private final int STOREY_COUNT = 5;
+	private int[] storeyheight = {120, 270, 420, 570, 720};
 	
 	
 	public int[] getStoreyheight() {

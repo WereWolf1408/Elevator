@@ -12,7 +12,7 @@ import people.People;
 import variable.ConstantVariable;
 
 public class Elevator{
-	private JPanel elevator;
+	private JPanel elevatorPanel;
 	private ConstantVariable cv;
 	private String elevatorName;
 	private int distance;
@@ -21,20 +21,36 @@ public class Elevator{
 	//координата при достижении который человек считаеться вошедшим в лифт
 	private int elevatorInside;
 	private ArrayList<People> peopleInElevator = new ArrayList<>();
+	private int currentStorey;
+	private int elevatorId;
 	
 
-	public Elevator(ConstantVariable cv, int distance, int elevatorInside, String elevatorName){
+	public Elevator(ConstantVariable cv, int distance, int elevatorInside, String elevatorName, int elevatorId){
 		this.elevatorName = elevatorName;
 		this.elevatorInside = elevatorInside;
 		this.cv = cv;
+		this.currentStorey = cv.getSTOREY_COUNT();
 		this.distance = distance;
-		elevator = new JPanel();
-		elevator.setBounds(distance, 460, cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
-		elevator.setBackground(Color.gray);
+		this.elevatorId = elevatorId;
+		elevatorPanel = new JPanel();
+		elevatorPanel.setBounds(distance, 730, cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
+		elevatorPanel.setBackground(Color.gray);
 	}
 	
 	public ArrayList<People> getPeopleInElevator() {
 		return peopleInElevator;
+	}
+	
+	public int getElevatorId() {
+		return elevatorId;
+	}
+
+	public void setCurrentStorey(int storey){
+		currentStorey = storey;
+	}
+	
+	public int getCurrentStorey(){
+		return currentStorey;
 	}
 
 	public void addElevatorPeople(People people){
@@ -62,15 +78,15 @@ public class Elevator{
 	}
 
 	public JPanel getElevator(){
-		return elevator;
+		return elevatorPanel;
 	}
 	
 	public int getX(){
-		return elevator.getX();
+		return elevatorPanel.getX();
 	}
 	
 	public int getY(){
-		return elevator.getY();
+		return elevatorPanel.getY();
 	}
 	
 	public int getElevatorInside() {
@@ -78,6 +94,6 @@ public class Elevator{
 	}
 
 	public void move(int y){
-		elevator.setBounds(distance, y,  cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
+		elevatorPanel.setBounds(distance, y,  cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 	}
 }

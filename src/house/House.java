@@ -23,13 +23,13 @@ public class House {
 	private ArrayList<Storey> storeys = new ArrayList<>();
 	private ArrayList<People> peoples = new ArrayList<>();
 	private ConstantVariable cv;
-	private Map<Integer, Elevator> curElevatorStorey = new HashMap<Integer, Elevator>();
 	private Lock lock = new ReentrantLock();
 	private Condition elevatorCondition = lock.newCondition();
 	private Condition peopleCondition = lock.newCondition();
 	//для людей которые уже приехали на свой этаж и вышли из лифта
-	private Condition finalDestination = lock.newCondition();
+	private Condition theEnd = lock.newCondition();
 	private Condition waitInElevator = lock.newCondition();
+	
 	
 	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
 			ArrayList<Storey> storeys){
@@ -39,24 +39,16 @@ public class House {
 		this.storeys = storeys;
 	}
 	
-	public Map<Integer, Elevator> getCurElevatorStorey() {
-		return curElevatorStorey;
-	}
-
-	public void addtCurElevatorStorey(int storey, Elevator elevator) {
-		this.curElevatorStorey.put(storey, elevator);
-	}
-	
 	public Condition getWaitInElevator() {
 		return waitInElevator;
 	}
 
-	public void removeElevatorStorey(int i){
-		this.curElevatorStorey.remove(i);
-	}
-
 	public Condition getPeopleCondition() {
 		return peopleCondition;
+	}
+	
+	public Condition getTheEnd() {
+		return theEnd;
 	}
 
 	public Condition getElevatorCondition() {
@@ -71,7 +63,7 @@ public class House {
 		return storeys;
 	}
 
-
+	
 	public ArrayList<People> getPeoples() {
 		return peoples;
 	}
@@ -111,7 +103,7 @@ public class House {
 	
 	private void createFrame(){
 		mainFraim.setLayout(null);
-		mainFraim.setSize(600,600);
+		mainFraim.setSize(600,800);
 		mainFraim.setBackground(Color.gray);
 		mainFraim.setVisible(true);
 	}

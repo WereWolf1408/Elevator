@@ -25,23 +25,27 @@ public class Runner {
 			storeys.add(storey);
 		}
 
-		elevators.add(new Elevator(constantVariable, 100, 120, "elevator1"));
-		elevators.add(new Elevator(constantVariable, 200, 220, "elevator2"));
-		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3"));
-		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4"));
+		elevators.add(new Elevator(constantVariable, 100, 120, "elevator1", 1));
+		elevators.add(new Elevator(constantVariable, 200, 220, "elevator2", 2));
+		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3", 3));
+		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4", 4));
 		
+		peoples.add(new People(constantVariable, 10));
+		peoples.add(new People(constantVariable, 10));
 		peoples.add(new People(constantVariable, 10));
 		peoples.add(new People(constantVariable, 10));
 
 		House house = new House(elevators, peoples, constantVariable, storeys);
 		
 		HouseElevatorEngine engine = new HouseElevatorEngine(house, elevators.get(0));
-		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
+//		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
 //		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
 //		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
 		
 		PeopleEngine pe = new PeopleEngine(peoples.get(0), house);
 		PeopleEngine pe1 = new PeopleEngine(peoples.get(1), house);
+		PeopleEngine pe2 = new PeopleEngine(peoples.get(2), house);
+		PeopleEngine pe3 = new PeopleEngine(peoples.get(3), house);
 		
 		house.init();
 		
@@ -52,5 +56,7 @@ public class Runner {
 		
 		pe.start();
 		pe1.start();
+		pe2.start();
+		pe3.start();
 	}
 }
