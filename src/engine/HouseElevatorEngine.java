@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
 
 import elevator.Elevator;
 import house.House;
@@ -19,27 +20,27 @@ public class HouseElevatorEngine extends Thread {
 	public HouseElevatorEngine(House house, Elevator elevator){
 		this.house = house;
 		this.elevator = elevator;
+		this.y = elevator.getY();
 	}
 	
 	private void checkDirection(){
-		if (elevator.getY() <= 0){
+		if (y <= 0){
 			elevator.setDirection(-1);
-		} else if (elevator.getY() >= 730){
+		} else if (y >= 730){
 			elevator.setDirection(0);
 		}
 	}
-	
+
 	private void elevatorMove(){
 		checkDirection();
-		
-		if (elevator.getDirection() == -1){
-			elevator.move(y += 1);
-		} else {
-			elevator.move(y -= 1);
+		if (elevator.getDirection() == 0){
+			elevator.move(y--);
+		} else if (elevator.getDirection() == -1){
+			elevator.move(y++);
 		}
 	}
 	
-	private void peopleInElevatorMove(){
+	private void peopleMoveUpWithElevator(){
 		if (elevator.getPeopleInElevator().size() != 0){
 			for (int i = 0; i < elevator.getPeopleInElevator().size(); i++){
 				elevator.getPeopleInElevator().get(i).move(elevator.getY()+60);
@@ -47,21 +48,21 @@ public class HouseElevatorEngine extends Thread {
 		}
 	}
 	
-	private void checkStoreys() throws InterruptedException{
-		ArrayList<Storey> storeys = house.getStoreys();
-		for (int storey = 0; storey < storeys.size(); storey++){
-			if ((y+60) == storeys.get(storey).getY()){
-				elevator.setCurrentStorey(storey);
-				peopleGetOut();
-				elevatopStop();
+	private void setStorey() throws InterruptedException{
+		for (int i = 0 ; i < house.getStoreys().size(); i++){
+			if (elevator.getY()+60 == house.getStoreys().get(i).getY()){
+				elevator.setCurrentStorey(i);
+//				System.out.println("storey " + i);
+				releasePeopleOfElevator();
+				checkPeopleOnTheStorey();
 			}
 		}
 	}
-	//проверка есть ли на текущем жэтаже люди, 
-	//если нет то не останавливаться
-	private void elevatopStop() throws InterruptedException{
-		for (People people : house.getPeoples()){
-			if (people.getStorey() == elevator.getCurrentStorey()){
+	
+	private void checkPeopleOnTheStorey() throws InterruptedException{
+		for (People peopel : house.getPeoples()){
+			if (elevator.getCurrentStorey() == peopel.getStartLocation()){
+//				System.out.println("elevator stop because exist people on the cuyurrent storey");
 				house.getPeopleCondition().signalAll();
 				house.getElevatorCondition().await();
 				break;
@@ -69,13 +70,12 @@ public class HouseElevatorEngine extends Thread {
 		}
 	}
 	
-	private void peopleGetOut() throws InterruptedException{
-		if(elevator.getPeopleInElevator().size() != 0){
+	private void releasePeopleOfElevator() throws InterruptedException{
+		if (elevator.getPeopleInElevator().size() != 0){
 			house.getWaitInElevator().signalAll();
 			house.getElevatorCondition().await();
 		}
 	}
-	
 	
 	@Override
 	public void run(){
@@ -84,8 +84,8 @@ public class HouseElevatorEngine extends Thread {
 			while(true){	
 				Thread.sleep(8);
 				elevatorMove();
-				peopleInElevatorMove();
-				checkStoreys();
+				setStorey();
+				peopleMoveUpWithElevator();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

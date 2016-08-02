@@ -1,6 +1,5 @@
 package engine;
 
-import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
 
 import elevator.Elevator;
 import house.House;
@@ -17,56 +16,54 @@ public class PeopleEngine extends Thread {
 		this.elevator = house.getElevators().get(0);
 	}
 	
-	//проверка не выйдет из цикла пока лифт не окажеться на том же этаже что и человек
-	private void checkElevatorStorey() throws InterruptedException{
-		while(people.getStorey() != elevator.getCurrentStorey()){
-			System.out.println("checkelevator storey " + people.getStorey());
+	
+	private void checkElevatorStoreyIn() throws InterruptedException{
+		while(people.getStartLocation() != elevator.getCurrentStorey()){
+//			System.out.println("peopel storey = " + people.getStartLocation() + 
+//					" elevator storey = " + elevator.getCurrentStorey());
+//			System.out.println("people await because storey is not same");
 			house.getElevatorCondition().signalAll();
 			house.getPeopleCondition().await();
 		}
 	}
 	
-	//проверка зашел ли человек в лифт
-	private void comeInElevator() throws InterruptedException{
-		if (people.getPosition() >= elevator.getElevatorInside()){
-			elevator.addElevatorPeople(people);
-			System.out.println("people.come in elevator" + "elevator capacity = " + elevator.getPeopleInElevator().size());
-			house.getPeoples().remove(people);
-			people.setElevatorId(elevator.getElevatorId());
+	private void chackElevatorDirection() throws InterruptedException{
+		while(people.getDirection() != elevator.getDirection()){
+//			System.out.println("check slevator storey" + elevator.getCurrentStorey() +
+//					" people fnal location = " + people.getFinalLocation());
+//			System.out.println("--------------------------------------------------");
+			house.getElevatorCondition().signalAll();
+			house.getPeopleCondition().await();
+		}
+		checkElevatorStoreyIn();
+	}
+	
+	private void checkElevatorStoreyOut() throws InterruptedException{
+		while(people.getFinalLocation() != elevator.getCurrentStorey()){
 			house.getElevatorCondition().signalAll();
 			house.getWaitInElevator().await();
 		}
 	}
 	
-	private void comeOutElevator() throws InterruptedException{
-		if (people.getPosition() >= 560){
-			elevator.removeElevatorPeople(people);
+	private void moveInsideElevator() throws InterruptedException{
+		if (people.getPosition() >= elevator.getElevatorInside()){
+			house.getPeoples().remove(people);
+			elevator.getPeopleInElevator().add(people);
+			people.setElevatorId(elevator.getElevatorId());
+//			System.out.println("peopel came out in elevator elevator capacity = " + 
+//					elevator.getPeopleInElevator().size());
+			house.getElevatorCondition().signalAll();
+			house.getWaitInElevator().await();
+		}
+	}
+	
+	private void moveOutElevator() throws InterruptedException{
+		if(people.getPosition() >= 300){
+			elevator.getPeopleInElevator().remove(people);
+			System.out.println("peopel move out " + 
+					"elevator capacity = " + elevator.getPeopleInElevator().size());
 			house.getElevatorCondition().signalAll();
 			house.getTheEnd().await();
-		}
-	}
-	
-	private void checkElevatorCapacity() throws InterruptedException{
-		while (elevator.getPeopleInElevator().size() >= elevator.getMAX_CAPACITY()){
-			house.getElevatorCondition().signalAll();
-			house.getPeopleCondition().await();
-			checkElevatorStorey();
-		}
-	}
-
-	private void checkElevatorDirection() throws InterruptedException{
-		while (people.getDirection() != elevator.getDirection()){
-			System.out.println("check elevator direction");
-			house.getElevatorCondition().signalAll();
-			house.getPeopleCondition().await();
-			checkElevatorStorey();
-		}
-	}
-	
-	private void  checComeOut() throws InterruptedException{
-		while(people.getFinalDectination() != elevator.getCurrentStorey()){
-			house.getElevatorCondition().signalAll();
-			house.getWaitInElevator().await();
 		}
 	}
 	
@@ -74,19 +71,18 @@ public class PeopleEngine extends Thread {
 	public void run (){
 		house.getLock().lock();
 		try {
-			checkElevatorStorey();
-			checkElevatorDirection();
-//			checkElevatorCapacity();
+			checkElevatorStoreyIn();
+			chackElevatorDirection();
 			while(true){
-				Thread.sleep(10);
 				if (people.getElevatorId() == 0){
 					people.move();
-					comeInElevator();
-				} else if (people.getElevatorId() != 0){
-					checComeOut();
-					comeOutElevator();
+					moveInsideElevator();
+				} else if(people.getElevatorId() != 0){
+					checkElevatorStoreyOut();
 					people.move();
+					moveOutElevator();
 				}
+				Thread.sleep(2);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

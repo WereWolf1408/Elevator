@@ -21,7 +21,7 @@ public class Elevator{
 	//координата при достижении который человек считаеться вошедшим в лифт
 	private int elevatorInside;
 	private ArrayList<People> peopleInElevator = new ArrayList<>();
-	private int currentStorey;
+	private int currentStorey = -1;
 	private int elevatorId;
 	
 
@@ -29,7 +29,6 @@ public class Elevator{
 		this.elevatorName = elevatorName;
 		this.elevatorInside = elevatorInside;
 		this.cv = cv;
-		this.currentStorey = cv.getSTOREY_COUNT();
 		this.distance = distance;
 		this.elevatorId = elevatorId;
 		elevatorPanel = new JPanel();

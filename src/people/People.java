@@ -10,34 +10,27 @@ public class People {
 	private ConstantVariable cv;
 	private JPanel people = null;
 	//этаж на котором появился человечек
-	private int storey;
+	private int startLocation;
 	//направление движения вверх(0)/низ(-1)
 	private int direction;
 	//этаж на который нужно человечку
-	private int finalDectination;
+	private int finalLocation;
 	private int y=0;
 	private int position;
 	private int elevatorId = 0;
 	
 	{
-		this.direction = (int)(Math.random()*2)-1;
-		this.storey = (int)(Math.random()*5);
-		this.finalDectination = (int)(Math.random()*5);
+		this.startLocation = (int)(Math.random()*5);
+		this.finalLocation = (int)(Math.random()*5);
 	}
 
 	public People(ConstantVariable cv, int position){
 		this.cv = cv;
 		this.position = position;
-		y = cv.getStoreyheight()[storey];
+		y = cv.getStoreyheight()[startLocation];
 		people = new JPanel();
 		people.setBounds(0, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
-		setDirection();
-		checkFinalDestination();
 		people.setBackground(Color.blue);
-		System.out.println("peopel start location = " + storey);
-		System.out.println("peopel end location = " + finalDectination);
-		System.out.println("peopel direction = " + direction);
-		System.out.println("-----------------------------------------");
 	}
 
 	public int getElevatorId(){
@@ -67,40 +60,46 @@ public class People {
 		return position;
 	}
 
-	public void setDirection(){
-		if (storey > finalDectination){
+	public void peopleInit(){
+		if (startLocation > finalLocation){
 			direction = 0;
-		} else if(storey < finalDectination){
+		} else if (startLocation < finalLocation){
 			direction = -1;
 		}
-	}
-	
-	//проверка что бы чел не содился и выходил на одном и том же этаже
-	public void checkFinalDestination(){
-		if (finalDectination == storey){
-			if (finalDectination == cv.getSTOREY_COUNT()){
-				finalDectination--;
-				direction = 0;
-			} else if (finalDectination == 0){
-				finalDectination++;
+		if (startLocation == finalLocation){
+			if (finalLocation == 0){
+				finalLocation++;
 				direction = -1;
+			} else if (finalLocation == cv.getSTOREY_COUNT()){
+				finalLocation--;
+				direction = 0;
+			} else {
+				if (direction == 0){
+					finalLocation--;
+				} else {
+					finalLocation++;
+				}
 			}
 		}
+		System.out.println("peopel start location = " + startLocation);
+		System.out.println("peopel end location = " + finalLocation);
+		System.out.println("peopel direction = " + direction);
+		System.out.println("-----------------------------------------");
 	}
 	
 	public JPanel getPeople(){
 		return people;
 	}
 
-	public int getStorey() {
-		return storey;
+	public int getStartLocation() {
+		return startLocation;
 	}
 
 	public int getDirection() {
 		return direction;
 	}
 
-	public int getFinalDectination() {
-		return finalDectination;
+	public int getFinalLocation() {
+		return finalLocation;
 	}
 }

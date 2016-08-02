@@ -9,7 +9,7 @@ public class ConstantVariable {
 	private final int ELEVATOR_WIDTH = 60;
 	private final int PEOPLE_HEIGHT = 20;
 	private final int PEOPLE_WIDTH = 20;
-	private final int STOREY_COUNT = 5;
+	private final int STOREY_COUNT = 4;
 	private int[] storeyheight = {120, 270, 420, 570, 720};
 	
 	

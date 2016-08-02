@@ -15,9 +15,11 @@ import variable.ConstantVariable;
 public class Runner {
 	
 	public static void main(String[] args){
+		int peopelCount = 20;
 		ArrayList<Elevator> elevators = new ArrayList<>();
 		ArrayList<People> peoples = new ArrayList<>();
 		ArrayList<Storey> storeys = new ArrayList<>();
+		ArrayList<PeopleEngine> pe = new ArrayList<>();
 		ConstantVariable constantVariable = new ConstantVariable();
 		
 		for(int i = 0; i < constantVariable.getStoreyheight().length; i++){
@@ -30,10 +32,12 @@ public class Runner {
 		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3", 3));
 		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4", 4));
 		
-		peoples.add(new People(constantVariable, 10));
-		peoples.add(new People(constantVariable, 10));
-		peoples.add(new People(constantVariable, 10));
-		peoples.add(new People(constantVariable, 10));
+		for (int i = 0; i < peopelCount; i++){
+			People people = new People(constantVariable, 10);
+			people.peopleInit();
+			peoples.add(people);
+		}
+		
 
 		House house = new House(elevators, peoples, constantVariable, storeys);
 		
@@ -41,11 +45,11 @@ public class Runner {
 //		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
 //		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
 //		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
-		
-		PeopleEngine pe = new PeopleEngine(peoples.get(0), house);
-		PeopleEngine pe1 = new PeopleEngine(peoples.get(1), house);
-		PeopleEngine pe2 = new PeopleEngine(peoples.get(2), house);
-		PeopleEngine pe3 = new PeopleEngine(peoples.get(3), house);
+
+		for (int i = 0; i < peopelCount; i++){
+			PeopleEngine p = new PeopleEngine(peoples.get(i), house);
+			pe.add(p);
+		}
 		
 		house.init();
 		
@@ -54,9 +58,9 @@ public class Runner {
 //		engine2.start();
 //		engine3.start();
 		
-		pe.start();
-		pe1.start();
-		pe2.start();
-		pe3.start();
+		for (int i = 0; i < pe.size(); i++){
+			pe.get(i).start();
+		}
+		
 	}
 }
