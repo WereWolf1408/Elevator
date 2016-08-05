@@ -1,15 +1,6 @@
 package engine;
-
-import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
-
 import elevator.Elevator;
 import house.House;
-import house.Storey;
 import people.People;
 
 public class HouseElevatorEngine extends Thread {
@@ -52,7 +43,6 @@ public class HouseElevatorEngine extends Thread {
 		for (int i = 0 ; i < house.getStoreys().size(); i++){
 			if (elevator.getY()+60 == house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
-//				System.out.println("storey " + i);
 				releasePeopleOfElevator();
 				checkPeopleOnTheStorey();
 			}
@@ -62,7 +52,6 @@ public class HouseElevatorEngine extends Thread {
 	private void checkPeopleOnTheStorey() throws InterruptedException{
 		for (People peopel : house.getPeoples()){
 			if (elevator.getCurrentStorey() == peopel.getStartLocation()){
-//				System.out.println("elevator stop because exist people on the cuyurrent storey");
 				house.getPeopleCondition().signalAll();
 				house.getElevatorCondition().await();
 				break;

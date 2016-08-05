@@ -15,7 +15,7 @@ import variable.ConstantVariable;
 public class Runner {
 	
 	public static void main(String[] args){
-		int peopelCount = 20;
+		int peopelCount = 10;
 		ArrayList<Elevator> elevators = new ArrayList<>();
 		ArrayList<People> peoples = new ArrayList<>();
 		ArrayList<Storey> storeys = new ArrayList<>();

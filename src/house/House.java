@@ -1,17 +1,12 @@
 package house;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Stroke;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import people.People;
 import variable.ConstantVariable;
