@@ -50,8 +50,8 @@ public class PeopleEngine extends Thread {
 			house.getPeoples().remove(people);
 			elevator.getPeopleInElevator().add(people);
 			people.setElevatorId(elevator.getElevatorId());
-//			System.out.println("peopel came out in elevator elevator capacity = " + 
-//					elevator.getPeopleInElevator().size());
+			System.out.println("people come in elevator; elevator capacity = " + 
+					elevator.getPeopleInElevator().size());
 			house.getElevatorCondition().signalAll();
 			house.getWaitInElevator().await();
 		}
@@ -60,7 +60,7 @@ public class PeopleEngine extends Thread {
 	private void moveOutElevator() throws InterruptedException{
 		if(people.getPosition() >= 300){
 			elevator.getPeopleInElevator().remove(people);
-			System.out.println("peopel move out " + 
+			System.out.println("peopel move out; " + 
 					"elevator capacity = " + elevator.getPeopleInElevator().size());
 			house.getElevatorCondition().signalAll();
 			house.getTheEnd().await();

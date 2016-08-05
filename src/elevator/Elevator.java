@@ -17,7 +17,7 @@ public class Elevator{
 	private String elevatorName;
 	private int distance;
 	private int direction = 0;
-	private final int MAX_CAPACITY = 3;
+	private final int MAX_CAPACITY = 6;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	private int elevatorInside;
 	private ArrayList<People> peopleInElevator = new ArrayList<>();
