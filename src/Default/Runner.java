@@ -15,7 +15,7 @@ import variable.ConstantVariable;
 public class Runner {
 	
 	public static void main(String[] args){
-		int peopelCount = 10;
+		int peopelCount = 2;
 		ArrayList<Elevator> elevators = new ArrayList<>();
 		ArrayList<People> peoples = new ArrayList<>();
 		ArrayList<Storey> storeys = new ArrayList<>();
@@ -29,8 +29,8 @@ public class Runner {
 
 		elevators.add(new Elevator(constantVariable, 100, 120, "elevator1", 1));
 		elevators.add(new Elevator(constantVariable, 200, 220, "elevator2", 2));
-		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3", 3));
-		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4", 4));
+//		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3", 3));
+//		elevators.add(new Elevator(constantVariable, 400, 420, "elevator4", 4));
 		
 		for (int i = 0; i < peopelCount; i++){
 			People people = new People(constantVariable, 10);
@@ -42,7 +42,7 @@ public class Runner {
 		House house = new House(elevators, peoples, constantVariable, storeys);
 		
 		HouseElevatorEngine engine = new HouseElevatorEngine(house, elevators.get(0));
-//		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
+		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));
 //		HouseElevatorEngine engine2 = new HouseElevatorEngine(house, elevators.get(2));
 //		HouseElevatorEngine engine3 = new HouseElevatorEngine(house, elevators.get(3));
 
@@ -54,7 +54,7 @@ public class Runner {
 		house.init();
 		
 		engine.start();
-//		engine1.start();
+		engine1.start();
 //		engine2.start();
 //		engine3.start();
 		

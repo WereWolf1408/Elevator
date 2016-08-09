@@ -1,6 +1,10 @@
 package engine;
+import javax.swing.plaf.basic.BasicTreeUI.CellEditorHandler;
+import javax.swing.text.ChangedCharSetException;
+
 import elevator.Elevator;
 import house.House;
+import house.Storey;
 import people.People;
 
 public class HouseElevatorEngine extends Thread {
@@ -43,32 +47,28 @@ public class HouseElevatorEngine extends Thread {
 		for (int i = 0 ; i < house.getStoreys().size(); i++){
 			if (elevator.getY()+60 == house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
-				releasePeopleOfElevator();
-				checkPeopleOnTheStorey();
+				checkPeopleOnStorey(i);
 			}
 		}
 	}
 	
-	private void checkPeopleOnTheStorey() throws InterruptedException{
-		for (People peopel : house.getPeoples()){
-			if (elevator.getCurrentStorey() == peopel.getStartLocation()){
-				house.getPeopleCondition().signalAll();
-				house.getElevatorCondition().await();
-				break;
+	private void checkPeopleOnStorey(int storey) throws InterruptedException{
+		Storey st = house.getStoreys().get(storey);
+		st.getLock().lock();
+		try{
+			if(st.getPeoples().size() != 0){
+				elevator.getLock().unlock();
+				st.getPeopelCondition().signalAll();
+				st.getElevatorCondition().await();
 			}
-		}
-	}
-	
-	private void releasePeopleOfElevator() throws InterruptedException{
-		if (elevator.getPeopleInElevator().size() != 0){
-			house.getWaitInElevator().signalAll();
-			house.getElevatorCondition().await();
+		}finally{
+			st.getLock().unlock();
 		}
 	}
 	
 	@Override
 	public void run(){
-		house.getLock().lock();
+		elevator.getLock().lock();
 		try {
 			while(true){	
 				Thread.sleep(8);
@@ -79,7 +79,7 @@ public class HouseElevatorEngine extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally{
-			house.getLock().unlock();
+			elevator.getLock().unlock();
 			System.out.println(elevator.getClass() + "release lock");
 		}
 	}

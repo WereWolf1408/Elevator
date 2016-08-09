@@ -2,6 +2,9 @@ package elevator;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JPanel ;
 
@@ -20,6 +23,9 @@ public class Elevator{
 	private ArrayList<People> peopleInElevator = new ArrayList<>();
 	private int currentStorey = -1;
 	private int elevatorId;
+	Lock lock = new ReentrantLock();
+	Condition peopleCondition = lock.newCondition();
+	Condition elevatorCondition = lock.newCondition();
 	
 
 	public Elevator(ConstantVariable cv, int x, int elevatorInside, 
@@ -33,6 +39,18 @@ public class Elevator{
 		elevatorPanel.setBackground(Color.gray);
 	}
 	
+	public Lock getLock() {
+		return lock;
+	}
+
+	public Condition getPeopleCondition() {
+		return peopleCondition;
+	}
+	
+	public Condition getElevatorCondition(){
+		return elevatorCondition;
+	}
+
 	public ArrayList<People> getPeopleInElevator() {
 		return peopleInElevator;
 	}

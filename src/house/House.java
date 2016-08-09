@@ -92,7 +92,11 @@ public class House {
 	
 	private void createPeoples(){
 		for (int i = 0; i < peoples.size(); i++){
+			storeys.get(peoples.get(i).getStartLocation()).getPeoples().add(peoples.get(i));
 			mainFraim.add(peoples.get(i).getPeople());
+		}
+		for (int i = 0; i < storeys.size(); i++){
+			System.out.println("storey " + i + " = " + storeys.get(i).getPeoples().size());
 		}
 	}
 	
