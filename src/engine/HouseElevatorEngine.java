@@ -1,7 +1,7 @@
 package engine;
 import elevator.Elevator;
 import house.House;
-import people.People;
+import house.Storey;
 
 public class HouseElevatorEngine extends Thread {
 	private House house;
@@ -43,32 +43,48 @@ public class HouseElevatorEngine extends Thread {
 		for (int i = 0 ; i < house.getStoreys().size(); i++){
 			if (elevator.getY()+60 == house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
-				releasePeopleOfElevator();
-				checkPeopleOnTheStorey();
+				house.getLock().lock();
+				checkComeOutPeople();
+				checkPeopelOnTheStorey();
 			}
 		}
 	}
 	
-	private void checkPeopleOnTheStorey() throws InterruptedException{
-		for (People peopel : house.getPeoples()){
-			if (elevator.getCurrentStorey() == peopel.getStartLocation()){
-				house.getPeopleCondition().signalAll();
-				house.getElevatorCondition().await();
-				break;
-			}
+	private void checkComeOutPeople() throws InterruptedException{
+		if(elevator.getPeopleInElevator().size() != 0){
+			house.getPeopelWaitInElevator(elevator.getElevatorId()).signalAll();
+			house.getElevatorCondition(elevator.getCurrentStorey()).await();
+			waitPeopelGoOut();
 		}
 	}
 	
-	private void releasePeopleOfElevator() throws InterruptedException{
-		if (elevator.getPeopleInElevator().size() != 0){
-			house.getWaitInElevator().signalAll();
-			house.getElevatorCondition().await();
+	private void waitPeopelGoOut() throws InterruptedException{
+		while(elevator.getGoOut() != 0){
+			house.getElevatorCondition(elevator.getCurrentStorey()).await();
+		}
+	}
+	
+	private void waitWhilePeopleGoIn() throws InterruptedException{
+		while(elevator.getGoIn() != 0){
+			house.getElevatorCondition(elevator.getCurrentStorey()).await();
+		}
+	}
+	
+	private void checkPeopelOnTheStorey() throws InterruptedException{
+		try{
+			Storey storey = house.getStoreys(elevator.getCurrentStorey());
+			if(!storey.getPeoples().isEmpty()){
+				house.getPeopleCondition(elevator.getCurrentStorey()).signalAll();
+				house.getElevatorCondition(elevator.getCurrentStorey()).await();
+				waitWhilePeopleGoIn();
+			}
+		}finally{
+			house.getLock().unlock();
 		}
 	}
 	
 	@Override
 	public void run(){
-		house.getLock().lock();
 		try {
 			while(true){	
 				Thread.sleep(8);
@@ -79,7 +95,6 @@ public class HouseElevatorEngine extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally{
-			house.getLock().unlock();
 			System.out.println(elevator.getClass() + "release lock");
 		}
 	}

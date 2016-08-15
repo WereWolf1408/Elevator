@@ -4,41 +4,34 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+import elevator.Elevator;
 import variable.ConstantVariable;
 
 public class People {
 	private ConstantVariable cv;
 	private JPanel people = null;
 	//этаж на котором появился человечек
-	private int startLocation;
+	private int startStorey;
 	//направление движения вверх(0)/низ(-1)
 	private int direction;
 	//этаж на который нужно человечку
-	private int finalLocation;
+	private int finalStorey;
 	private int y=0;
 	private int position;
-	private int elevatorId = 0;
 	
 	{
-		this.startLocation = (int)(Math.random()*5);
-		this.finalLocation = (int)(Math.random()*5);
+		this.startStorey = (int)(Math.random()*5);
+		this.finalStorey = (int)(Math.random()*5);
 	}
 
 	public People(ConstantVariable cv, int position){
 		this.cv = cv;
 		this.position = position;
-		y = cv.getStoreyheight()[startLocation];
+		//нужно что бы разместить челове над линией этажа 
+		y = cv.getStoreyheight()[startStorey];
 		people = new JPanel();
 		people.setBounds(0, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
 		people.setBackground(Color.blue);
-	}
-
-	public int getElevatorId(){
-		return elevatorId;
-	}
-	
-	public void setElevatorId(int id){
-		elevatorId = id;
 	}
 	
 	public void move(){
@@ -61,28 +54,28 @@ public class People {
 	}
 
 	public void peopleInit(){
-		if (startLocation > finalLocation){
+		if (startStorey > finalStorey){
 			direction = 0;
-		} else if (startLocation < finalLocation){
+		} else if (startStorey < finalStorey){
 			direction = -1;
 		}
-		if (startLocation == finalLocation){
-			if (finalLocation == 0){
-				finalLocation++;
+		if (startStorey == finalStorey){
+			if (finalStorey == 0){
+				finalStorey++;
 				direction = -1;
-			} else if (finalLocation == cv.getSTOREY_COUNT()){
-				finalLocation--;
+			} else if (finalStorey == cv.getSTOREY_COUNT()){
+				finalStorey--;
 				direction = 0;
 			} else {
 				if (direction == 0){
-					finalLocation--;
+					finalStorey--;
 				} else {
-					finalLocation++;
+					finalStorey++;
 				}
 			}
 		}
-		System.out.println("peopel start location = " + startLocation);
-		System.out.println("peopel end location = " + finalLocation);
+		System.out.println("peopel start location = " + startStorey);
+		System.out.println("peopel end location = " + finalStorey);
 		System.out.println("peopel direction = " + direction);
 		System.out.println("-----------------------------------------");
 	}
@@ -92,7 +85,7 @@ public class People {
 	}
 
 	public int getStartLocation() {
-		return startLocation;
+		return startStorey;
 	}
 
 	public int getDirection() {
@@ -100,6 +93,6 @@ public class People {
 	}
 
 	public int getFinalLocation() {
-		return finalLocation;
+		return finalStorey;
 	}
 }
