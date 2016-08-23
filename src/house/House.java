@@ -105,6 +105,7 @@ public class House {
 	
 	private void createElevator(){
 		for (int i = 0; i < elevators.size(); i++){
+			elevators.get(i).setId(i);
 			mainFraim.add(elevators.get(i).getElevator());
 			peopelWaitInElevator.add(lock.newCondition());
 		}
@@ -118,7 +119,7 @@ public class House {
 	
 	private void addPeopleOnStorey(){
 		for (People people : peoples){
-			storeys.get(people.getStartLocation()).incPeopleCount();
+			storeys.get(people.getStartLocation()).addPeople();
 		}
 		for(Storey storey : storeys){
 			System.out.println(storey.getPeopleCount());

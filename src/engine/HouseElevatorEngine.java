@@ -19,7 +19,7 @@ public class HouseElevatorEngine extends Thread {
 	private void checkDirection(){
 		if (y <= 0){
 			elevator.setDirection(-1);
-		} else if (y >= cv.getFRAME_HEIGHT() - 100){
+		} else if (y >= cv.getFRAME_HEIGHT() + cv.getELEVATOR_WIDTH()){
 			elevator.setDirection(0);
 		}
 	}
@@ -46,7 +46,6 @@ public class HouseElevatorEngine extends Thread {
 			if (elevator.getY()+house.getConstVariable().getELEVATOR_WIDTH() == 
 					house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
-				System.out.println("elevator on storey = " + elevator.getCurrentStorey());
 				house.getLock().lock();
 				checkComeOutPeople();
 				checkPeopelOnTheStorey();
@@ -56,7 +55,7 @@ public class HouseElevatorEngine extends Thread {
 	
 	private void checkComeOutPeople() throws InterruptedException{
 		if(elevator.getPeopleInElevator().size() != 0){
-			house.getPeopelWaitInElevator(elevator.getElevatorId()).signalAll();
+			house.getPeopelWaitInElevator(elevator.getId()).signalAll();
 			house.getElevatorCondition(elevator.getCurrentStorey()).await();
 			waitPeopelGoOut();
 		}

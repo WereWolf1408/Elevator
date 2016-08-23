@@ -19,8 +19,8 @@ public class People {
 	private int position;
 	
 	{
-		this.startStorey = (int)(Math.random()*5);
-		this.finalStorey = (int)(Math.random()*5);
+		this.startStorey = (int)(Math.random() * cv.getSTOREY_COUNT());
+		this.finalStorey = (int)(Math.random() * cv.getSTOREY_COUNT());
 	}
 
 	public People(int position){

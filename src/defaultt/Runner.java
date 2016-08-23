@@ -13,7 +13,7 @@ import house.Storey;
 public class Runner {
 	
 	public static void main(String[] args){
-		int peopelCount = 5;
+		int peopelCount = 30;
 		ArrayList<Elevator> elevators = new ArrayList<>();
 		ArrayList<People> peoples = new ArrayList<>();
 		ArrayList<Storey> storeys = new ArrayList<>();
@@ -25,9 +25,9 @@ public class Runner {
 			storeys.add(storey);
 		}
 
-		elevators.add(new Elevator(100, 120, "elevator1", 530, 0));
-		elevators.add(new Elevator(200, 220, "elevator2", 0, 1));
-		elevators.add(new Elevator(300, 320, "elevator3", 300, 2));
+		elevators.add(new Elevator(100, 120, "elevator1", 530));
+		elevators.add(new Elevator(200, 220, "elevator2", 0));
+		elevators.add(new Elevator(300, 320, "elevator3", 300));
 		
 		for (int i = 0; i < peopelCount; i++){
 			People people = new People(10);

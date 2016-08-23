@@ -11,9 +11,9 @@ public class Elevator{
 	private JPanel elevatorPanel = new JPanel();
 	private ConstVariable cv = ConstVariable.getConstVariable();
 	private String elevatorName;
-	private int elevatorId;
 	private int direction = 0;
 	private final int MAX_CAPACITY = 1;
+	private int id;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	//у каждого она разная
 	private int elevatorInside;
@@ -26,18 +26,25 @@ public class Elevator{
 	
 
 	public Elevator(int x, int elevatorInside, 
-			String elevatorName, int startLocation, int elevatorId){
+			String elevatorName, int startLocation){
 		this.elevatorName = elevatorName;
 		this.elevatorInside = elevatorInside;
 		this.goInElevator = 0;
 		this.goOutElevator = 0;
-		this.elevatorId = elevatorId;
-		elevatorPanel.setBounds(x, startLocation, cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
+		elevatorPanel.setBounds(x, cv.getFRAME_WIDTH(), cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 		elevatorPanel.setBackground(Color.gray);
 	}
 	
 	public int getGoIn() {
 		return goInElevator;
+	}
+	
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	public int getId(){
+		return id;
 	}
 
 	public void incGoIn() {
@@ -58,10 +65,6 @@ public class Elevator{
 	
 	public void decGoOut(){
 		this.goOutElevator--;
-	}
-
-	public int getElevatorId() {
-		return elevatorId;
 	}
 
 	public ArrayList<People> getPeopleInElevator() {

@@ -30,11 +30,11 @@ public class Storey {
 		return peopleCount;
 	}
 	
-	public void incPeopleCount(){
+	public void addPeople(){
 		peopleCount++;
 	}
 	
-	public void decPeopleCount(){
+	public void removePeople(){
 		peopleCount--;
 	}
 	
