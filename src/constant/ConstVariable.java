@@ -1,7 +1,8 @@
-package variable;
+package constant;
 
-public class ConstantVariable {
-	private final int STOREY_HEIGHT = 2;
+public class ConstVariable {
+	private static ConstVariable cv;
+	private final int STOREY_LINE_HEIGHT = 2;
 	private final int FRAME_HEIGHT = 600;
 	private final int FRAME_WIDTH = 600;
 	private final int STOREY_WIDTH = FRAME_WIDTH;
@@ -10,12 +11,27 @@ public class ConstantVariable {
 	private final int PEOPLE_HEIGHT = 20;
 	private final int PEOPLE_WIDTH = 20;
 	private final int STOREY_COUNT = 4;
-	private int[] storeyheight = {120, 270, 420, 570, 720};
+//	private int[] storeyheight = {120, 250, 420, 570, 720};
+	private final int STOREY_HEIGHT = 120;
 	
+	private ConstVariable(){}
 	
-	public int[] getStoreyheight() {
-		return storeyheight;
+	public static ConstVariable getConstVariable(){
+		if(cv == null){
+			cv = new ConstVariable();
+		}
+		return cv;
 	}
+	
+	
+//	public int[] getStoreyheight() {
+//		return storeyheight;
+//	}
+	
+	public int getStoreyHeight(int storey){
+		return STOREY_HEIGHT * storey;
+	}
+	
 	public int getPEOPLE_HEIGHT() {
 		return PEOPLE_HEIGHT;
 	}
@@ -32,7 +48,7 @@ public class ConstantVariable {
 		return ELEVATOR_WIDTH;
 	}
 	public int getSTOREY_HEIGHT() {
-		return STOREY_HEIGHT;
+		return STOREY_LINE_HEIGHT;
 	}
 	public int getFRAME_HEIGHT() {
 		return FRAME_HEIGHT;

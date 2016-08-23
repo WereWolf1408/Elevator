@@ -1,4 +1,5 @@
 package engine;
+import constant.ConstVariable;
 import elevator.Elevator;
 import house.House;
 import house.Storey;
@@ -6,7 +7,8 @@ import house.Storey;
 public class HouseElevatorEngine extends Thread {
 	private House house;
 	private Elevator elevator;
-	int y;
+	private int y;
+	private ConstVariable cv = ConstVariable.getConstVariable();
 	
 	public HouseElevatorEngine(House house, Elevator elevator){
 		this.house = house;
@@ -17,7 +19,7 @@ public class HouseElevatorEngine extends Thread {
 	private void checkDirection(){
 		if (y <= 0){
 			elevator.setDirection(-1);
-		} else if (y >= 730){
+		} else if (y >= cv.getFRAME_HEIGHT() - 100){
 			elevator.setDirection(0);
 		}
 	}
@@ -40,9 +42,11 @@ public class HouseElevatorEngine extends Thread {
 	}
 	
 	private void setStorey() throws InterruptedException{
-		for (int i = 0 ; i < house.getStoreys().size(); i++){
-			if (elevator.getY()+60 == house.getStoreys().get(i).getY()){
+		for (int i = 0 ; i <= house.getConstVariable().getSTOREY_COUNT(); i++){
+			if (elevator.getY()+house.getConstVariable().getELEVATOR_WIDTH() == 
+					house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
+				System.out.println("elevator on storey = " + elevator.getCurrentStorey());
 				house.getLock().lock();
 				checkComeOutPeople();
 				checkPeopelOnTheStorey();
@@ -73,7 +77,7 @@ public class HouseElevatorEngine extends Thread {
 	private void checkPeopelOnTheStorey() throws InterruptedException{
 		try{
 			Storey storey = house.getStoreys(elevator.getCurrentStorey());
-			if(!storey.getPeoples().isEmpty()){
+			if(storey.getPeopleCount() != 0){
 				house.getPeopleCondition(elevator.getCurrentStorey()).signalAll();
 				house.getElevatorCondition(elevator.getCurrentStorey()).await();
 				waitWhilePeopleGoIn();

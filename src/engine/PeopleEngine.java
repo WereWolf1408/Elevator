@@ -21,7 +21,8 @@ public class PeopleEngine extends Thread {
 			if(people.getPosition() >= elevator.getElevatorInside()){
 				house.getLock().lock();
 				elevator.decGoIn();
-				house.getStoreys(people.getStartLocation()).getPeoples().remove(people);
+				house.getPeoples().remove(people);
+				house.getStoreys(elevator.getCurrentStorey()).decPeopleCount();
 				house.getElevatorCondition(people.getStartLocation()).signalAll();
 				house.getPeopelWaitInElevator(elevator.getElevatorId()).await();
 				checkPeopleMoveOut(elevator);

@@ -1,43 +1,42 @@
-package Default;
+package defaultt;
 
 import java.util.ArrayList;
 
-
+import constant.ConstVariable;
 import people.People;
 import elevator.Elevator;
 import engine.HouseElevatorEngine;
 import engine.PeopleEngine;
 import house.House;
 import house.Storey;
-import variable.ConstantVariable;
 
 public class Runner {
 	
 	public static void main(String[] args){
-		int peopelCount = 40;
+		int peopelCount = 5;
 		ArrayList<Elevator> elevators = new ArrayList<>();
 		ArrayList<People> peoples = new ArrayList<>();
 		ArrayList<Storey> storeys = new ArrayList<>();
 		ArrayList<PeopleEngine> pe = new ArrayList<>();
-		ConstantVariable constantVariable = new ConstantVariable();
+		ConstVariable cv = ConstVariable.getConstVariable();
 		
-		for(int i = 0; i < constantVariable.getStoreyheight().length; i++){
-			Storey storey = new Storey(constantVariable, constantVariable.getStoreyheight()[i]);
+		for(int i = 0; i <= cv.getSTOREY_COUNT(); i++){
+			Storey storey = new Storey(cv.getStoreyHeight(i));
 			storeys.add(storey);
 		}
 
-		elevators.add(new Elevator(constantVariable, 100, 120, "elevator1", 730, 0));
-		elevators.add(new Elevator(constantVariable, 200, 220, "elevator2", 0, 1));
-		elevators.add(new Elevator(constantVariable, 300, 320, "elevator3", 300, 2));
+		elevators.add(new Elevator(100, 120, "elevator1", 530, 0));
+		elevators.add(new Elevator(200, 220, "elevator2", 0, 1));
+		elevators.add(new Elevator(300, 320, "elevator3", 300, 2));
 		
 		for (int i = 0; i < peopelCount; i++){
-			People people = new People(constantVariable, 10);
+			People people = new People(10);
 			people.peopleInit();
 			peoples.add(people);
 		}
 		
 
-		House house = new House(elevators, peoples, constantVariable, storeys);
+		House house = new House(elevators, peoples, cv, storeys);
 		
 		HouseElevatorEngine engine = new HouseElevatorEngine(house, elevators.get(0));
 		HouseElevatorEngine engine1 = new HouseElevatorEngine(house, elevators.get(1));

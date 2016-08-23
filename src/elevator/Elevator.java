@@ -4,16 +4,16 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JPanel ;
 
+import constant.ConstVariable;
 import people.People;
-import variable.ConstantVariable;
 
 public class Elevator{
 	private JPanel elevatorPanel = new JPanel();
-	private ConstantVariable cv;
+	private ConstVariable cv = ConstVariable.getConstVariable();
 	private String elevatorName;
 	private int elevatorId;
 	private int direction = 0;
-	private final int MAX_CAPACITY = 5;
+	private final int MAX_CAPACITY = 1;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	//у каждого она разная
 	private int elevatorInside;
@@ -21,44 +21,43 @@ public class Elevator{
 	private int currentStorey = -1;
 	//нужна что смотреть сколько человек идет в лифт, пока она не равна нулю лифт не поедет
 	//если goIn != 0 значит в лифт еще сели н евсе люди 
-	private int goIn;
-	private int goOut;
+	private int goInElevator;
+	private int goOutElevator;
 	
 
-	public Elevator(ConstantVariable cv, int x, int elevatorInside, 
+	public Elevator(int x, int elevatorInside, 
 			String elevatorName, int startLocation, int elevatorId){
 		this.elevatorName = elevatorName;
 		this.elevatorInside = elevatorInside;
-		this.cv = cv;
-		this.goIn = 0;
-		this.goOut = 0;
+		this.goInElevator = 0;
+		this.goOutElevator = 0;
 		this.elevatorId = elevatorId;
 		elevatorPanel.setBounds(x, startLocation, cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 		elevatorPanel.setBackground(Color.gray);
 	}
 	
 	public int getGoIn() {
-		return goIn;
+		return goInElevator;
 	}
 
 	public void incGoIn() {
-		this.goIn++;
+		this.goInElevator++;
 	}
 	
 	public void decGoIn(){
-		this.goIn--;
+		this.goInElevator--;
 	}
 
 	public int getGoOut() {
-		return goOut;
+		return goOutElevator;
 	}
 
 	public void incGoOut() {
-		this.goOut++;
+		this.goOutElevator++;
 	}
 	
 	public void decGoOut(){
-		this.goOut--;
+		this.goOutElevator--;
 	}
 
 	public int getElevatorId() {

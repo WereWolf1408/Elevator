@@ -8,8 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
 
+import constant.ConstVariable;
 import people.People;
-import variable.ConstantVariable;
 import elevator.Elevator;
 
 public class House {
@@ -17,22 +17,26 @@ public class House {
 	private ArrayList<Elevator> elevators = new ArrayList<>();
 	private ArrayList<Storey> storeys = new ArrayList<>();
 	private ArrayList<People> peoples = new ArrayList<>();
-	private ConstantVariable cv;
+	private ArrayList<Condition> elevatorCondirion = new ArrayList<>();
+	private ArrayList<Condition> peopleCondition = new ArrayList<>();
+	private ArrayList<Condition> peopelWaitInElevator = new ArrayList<>();
+	private ConstVariable cv;
 	private Lock lock = new ReentrantLock();
 	private Condition theEnd = lock.newCondition();
 //	private Condition peopleCondition = lock.newCondition();
 	//для людей которые уже приехали на свой этаж и вышли из лифта
-	private ArrayList<Condition> elevatorCondirion = new ArrayList<>();
-	private ArrayList<Condition> peopleCondition = new ArrayList<>();
-	private ArrayList<Condition> peopelWaitInElevator = new ArrayList<>();
 	
 	
-	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstantVariable cv,
+	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstVariable cv,
 			ArrayList<Storey> storeys){
 		this.elevators = elevators;
 		this.peoples = peoples;
 		this.cv = cv;
 		this.storeys = storeys;
+	}
+	
+	public ConstVariable getConstVariable(){
+		return cv;
 	}
 	
 	public Condition getTheEnd() {
@@ -70,6 +74,7 @@ public class House {
 		createStoreys();
 		createElevator();
 		createPeoples();
+		addPeopleOnStorey();
 	}
 	
 	
@@ -78,7 +83,7 @@ public class House {
 	}
 
 	private void createPeopleAndElevatorCondition(){
-		for(int i = 0; i <= storeys.size(); i++){
+		for(int i = 0; i <= cv.getSTOREY_COUNT(); i++){
 			peopleCondition.add(lock.newCondition());
 			elevatorCondirion.add(lock.newCondition());
 		}
@@ -107,15 +112,22 @@ public class House {
 	
 	private void createPeoples(){
 		for (int i = 0; i < peoples.size(); i++){
-			Storey storey = storeys.get(peoples.get(i).getStartLocation());
-			storey.getPeoples().add(peoples.get(i));
 			mainFraim.add(peoples.get(i).getPeople());
+		}
+	}
+	
+	private void addPeopleOnStorey(){
+		for (People people : peoples){
+			storeys.get(people.getStartLocation()).incPeopleCount();
+		}
+		for(Storey storey : storeys){
+			System.out.println(storey.getPeopleCount());
 		}
 	}
 	
 	private void createFrame(){
 		mainFraim.setLayout(null);
-		mainFraim.setSize(600,800);
+		mainFraim.setSize(cv.getFRAME_HEIGHT(), cv.getFRAME_WIDTH());
 		mainFraim.setBackground(Color.gray);
 		mainFraim.setVisible(true);
 	}

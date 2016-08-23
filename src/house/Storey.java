@@ -1,42 +1,47 @@
 package house;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JPanel;
 
+import constant.ConstVariable;
 import elevator.Elevator;
-import people.People;
-import variable.ConstantVariable;
 
 public class Storey {
-	private ConstantVariable constantVariable;
+	private ConstVariable cv = ConstVariable.getConstVariable();
 	private JPanel storey = null;
+	private int peopleCount = 0;
 	private Lock lock = new ReentrantLock();
 	private Condition eCondition = lock.newCondition();
 	private Condition pCondition = lock.newCondition();
 	private Elevator elevator;
-	private ArrayList<People> peoples = new ArrayList<>();
 	
-	public Storey(ConstantVariable constantVariable, int y){
-		this.constantVariable = constantVariable;
+	public Storey(int y){
 		storey = new JPanel();
-		storey.setBounds(0, y, constantVariable.getSTOREY_WIDTH(), constantVariable.getSTOREY_HEIGHT());
+		storey.setBounds(0, y, cv.getSTOREY_WIDTH(), cv.getSTOREY_HEIGHT());
 		storey.setBackground(Color.red);
 		storey.setVisible(true);
+	}
+	
+	public int getPeopleCount(){
+		return peopleCount;
+	}
+	
+	public void incPeopleCount(){
+		peopleCount++;
+	}
+	
+	public void decPeopleCount(){
+		peopleCount--;
 	}
 	
 	public void setElevator(Elevator elevator) {
 		this.elevator = elevator;
 	}
 	
-	public ArrayList<People> getPeoples() {
-		return peoples;
-	}
-
 	public Elevator getElevator() {
 		return elevator;
 	}
@@ -53,12 +58,12 @@ public class Storey {
 		return pCondition;
 	}
 
-	public ConstantVariable getConstantVariable() {
-		return constantVariable;
+	public ConstVariable getConstantVariable() {
+		return cv;
 	}
 
-	public void setConstantVariable(ConstantVariable constantVariable) {
-		this.constantVariable = constantVariable;
+	public void setConstantVariable(ConstVariable constantVariable) {
+		this.cv = constantVariable;
 	}
 	
 	public JPanel getStorey(){

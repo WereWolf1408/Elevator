@@ -4,11 +4,10 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-import elevator.Elevator;
-import variable.ConstantVariable;
+import constant.ConstVariable;
 
 public class People {
-	private ConstantVariable cv;
+	private ConstVariable cv = ConstVariable.getConstVariable();
 	private JPanel people = null;
 	//этаж на котором появился человечек
 	private int startStorey;
@@ -24,11 +23,10 @@ public class People {
 		this.finalStorey = (int)(Math.random()*5);
 	}
 
-	public People(ConstantVariable cv, int position){
-		this.cv = cv;
+	public People(int position){
 		this.position = position;
 		//нужно что бы разместить челове над линией этажа 
-		y = cv.getStoreyheight()[startStorey];
+		y = cv.getStoreyHeight(startStorey);
 		people = new JPanel();
 		people.setBounds(0, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
 		people.setBackground(Color.blue);
