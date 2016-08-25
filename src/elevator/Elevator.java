@@ -2,6 +2,8 @@ package elevator;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel ;
 
 import constant.ConstVariable;
@@ -13,6 +15,7 @@ public class Elevator{
 	private String elevatorName;
 	private int direction = 0;
 	private final int MAX_CAPACITY = 5;
+	private int elevatorCapacity = 0;
 	private int id;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	//у каждого она разная
@@ -23,14 +26,17 @@ public class Elevator{
 	//если goIn != 0 значит в лифт еще сели н евсе люди 
 	private int goInElevator;
 	private int goOutElevator;
+	private JLabel label = new JLabel("0");
 	
-	public Elevator(int x, String elevatorName, int startLocation){
+	public Elevator(int x, String elevatorName){
 		this.elevatorName = elevatorName;
 		this.goInElevator = 0;
 		this.goOutElevator = 0;
 		this.elevatorInside = x;
 		elevatorPanel.setBounds(x, cv.getFRAME_WIDTH(), cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 		elevatorPanel.setBackground(Color.gray);
+		label.setForeground(Color.white);
+		elevatorPanel.add(label);
 	}
 	
 	public int getGoIn() {
@@ -39,6 +45,14 @@ public class Elevator{
 	
 	public void setId(int id){
 		this.id = id;
+	}
+	
+	public void addElevatorCapacity(){
+		label.setText(String.valueOf(++elevatorCapacity));
+	}
+	
+	public void subElevatorCapacity(){
+		label.setText(String.valueOf(--elevatorCapacity));
 	}
 	
 	public int getId(){

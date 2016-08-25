@@ -44,6 +44,7 @@ public class PeopleEngine extends Thread {
 	private void moveOutElevator(Elevator elevator) throws InterruptedException{
 		try{
 			elevator.getPeopleInElevator().remove(people);
+			elevator.subElevatorCapacity();
 			elevator.incGoOut();
 			house.getElevatorCondition(people.getFinalLocation()).signalAll();
 		}finally{
@@ -73,6 +74,7 @@ public class PeopleEngine extends Thread {
 						elevator.getMAX_CAPACITY() > elevator.getPeopleInElevator().size()){
 					elevator.incGoIn();
 					elevator.getPeopleInElevator().add(people);
+					elevator.addElevatorCapacity();
 					house.getPeoples().remove(people);
 					house.getStoreys(elevator.getCurrentStorey()).removePeople();
 					house.getLock().unlock();
