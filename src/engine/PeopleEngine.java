@@ -19,10 +19,14 @@ public class PeopleEngine extends Thread {
 		while (true){
 			if(people.getPosition() >= elevator.getElevatorInside()){
 				house.getLock().lock();
-				elevator.decGoIn();
-				house.getElevatorCondition(people.getStartLocation()).signalAll();
-				house.getPeopelWaitInElevator(elevator.getId()).await();
-				checkPeopleMoveOut(elevator);
+				try{
+					elevator.decGoIn();
+					house.getElevatorCondition(people.getStartLocation()).signalAll();
+					house.getPeopelWaitInElevator(elevator.getId()).await();
+					checkPeopleMoveOut(elevator);
+				}finally{
+					house.getLock().unlock();
+				}
 			}
 			people.move();
 			Thread.sleep(2);
@@ -40,13 +44,15 @@ public class PeopleEngine extends Thread {
 	private void moveOutElevator(Elevator elevator) throws InterruptedException{
 		try{
 			elevator.getPeopleInElevator().remove(people);
-			System.out.println("people come out  " + "elevator capacity = " + 
-					elevator.getPeopleInElevator().size());
 			elevator.incGoOut();
 			house.getElevatorCondition(people.getFinalLocation()).signalAll();
 		}finally{
 			house.getLock().unlock();
 		}
+		finalDestination(elevator);
+	}
+	
+	private void finalDestination(Elevator elevator) throws InterruptedException{
 		while(true){
 			if(people.getPosition() >= 500){
 				house.getLock().lock();
@@ -69,7 +75,6 @@ public class PeopleEngine extends Thread {
 					elevator.getPeopleInElevator().add(people);
 					house.getPeoples().remove(people);
 					house.getStoreys(elevator.getCurrentStorey()).removePeople();
-					System.out.println("people come in " + elevator.getElevatorName() + "capasity = " + elevator.getPeopleInElevator().size());
 					house.getLock().unlock();
 					moveInsideElevator(elevator);
 				}
@@ -91,5 +96,3 @@ public class PeopleEngine extends Thread {
 		}
 	}
 }
-
-

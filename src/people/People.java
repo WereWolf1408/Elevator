@@ -15,42 +15,41 @@ public class People {
 	private int direction;
 	//этаж на который нужно человечку
 	private int finalStorey;
-	private int y=0;
-	private int position;
+	private int position = 10;
+	private int y;
 	
 	{
-		this.startStorey = (int)(Math.random() * cv.getSTOREY_COUNT());
-		this.finalStorey = (int)(Math.random() * cv.getSTOREY_COUNT());
+		this.startStorey = (int)(Math.random() * cv.getSTOREY_COUNT()+1);
+		this.finalStorey = (int)(Math.random() * cv.getSTOREY_COUNT()+1);
 	}
 
-	public People(int position){
-		this.position = position;
+	public People(){
 		//нужно что бы разместить челове над линией этажа 
-		y = cv.getStoreyHeight(startStorey);
 		people = new JPanel();
-		people.setBounds(0, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
+		y = cv.getStoreyHeight(startStorey)-20;
+		people.setBounds(0, y, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
 		people.setBackground(Color.blue);
 	}
 	
 	public void move(){
-		people.setBounds(position++, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
+		people.setBounds(position++, y, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
 	}
-	public void move(int y){
-		setY(y);
-		people.setBounds(position, y-20, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
-	}
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+	
+	
+	public void moveWithElevator(){
+		if(direction == 0){
+			y--;
+		}else{
+			y++;
+		}
+		people.setBounds(people.getX(), y, cv.getPEOPLE_HEIGHT(), cv.getPEOPLE_WIDTH());
 	}
 
 	public int getPosition() {
 		return position;
 	}
-
+	
+	
 	public void peopleInit(){
 		if (startStorey > finalStorey){
 			direction = 0;

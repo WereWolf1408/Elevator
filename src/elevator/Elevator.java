@@ -12,7 +12,7 @@ public class Elevator{
 	private ConstVariable cv = ConstVariable.getConstVariable();
 	private String elevatorName;
 	private int direction = 0;
-	private final int MAX_CAPACITY = 1;
+	private final int MAX_CAPACITY = 5;
 	private int id;
 	//координата при достижении который человек считаеться вошедшим в лифт
 	//у каждого она разная
@@ -24,13 +24,11 @@ public class Elevator{
 	private int goInElevator;
 	private int goOutElevator;
 	
-
-	public Elevator(int x, int elevatorInside, 
-			String elevatorName, int startLocation){
+	public Elevator(int x, String elevatorName, int startLocation){
 		this.elevatorName = elevatorName;
-		this.elevatorInside = elevatorInside;
 		this.goInElevator = 0;
 		this.goOutElevator = 0;
+		this.elevatorInside = x;
 		elevatorPanel.setBounds(x, cv.getFRAME_WIDTH(), cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
 		elevatorPanel.setBackground(Color.gray);
 	}

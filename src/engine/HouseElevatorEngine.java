@@ -3,6 +3,7 @@ import constant.ConstVariable;
 import elevator.Elevator;
 import house.House;
 import house.Storey;
+import people.People;
 
 public class HouseElevatorEngine extends Thread {
 	private House house;
@@ -35,17 +36,18 @@ public class HouseElevatorEngine extends Thread {
 	
 	private void peopleMoveUpWithElevator(){
 		if (elevator.getPeopleInElevator().size() != 0){
-			for (int i = 0; i < elevator.getPeopleInElevator().size(); i++){
-				elevator.getPeopleInElevator().get(i).move(elevator.getY()+60);
+			for(People people : elevator.getPeopleInElevator()){
+				people.moveWithElevator();
 			}
 		}
 	}
 	
 	private void setStorey() throws InterruptedException{
-		for (int i = 0 ; i <= house.getConstVariable().getSTOREY_COUNT(); i++){
-			if (elevator.getY()+house.getConstVariable().getELEVATOR_WIDTH() == 
+		for (int i = 0; i <= cv.getSTOREY_COUNT(); i++){
+			if (elevator.getY()+cv.getELEVATOR_WIDTH() == 
 					house.getStoreys().get(i).getY()){
 				elevator.setCurrentStorey(i);
+				System.out.println("storey = " + elevator.getCurrentStorey());
 				house.getLock().lock();
 				checkComeOutPeople();
 				checkPeopelOnTheStorey();
@@ -67,12 +69,6 @@ public class HouseElevatorEngine extends Thread {
 		}
 	}
 	
-	private void waitWhilePeopleGoIn() throws InterruptedException{
-		while(elevator.getGoIn() != 0){
-			house.getElevatorCondition(elevator.getCurrentStorey()).await();
-		}
-	}
-	
 	private void checkPeopelOnTheStorey() throws InterruptedException{
 		try{
 			Storey storey = house.getStoreys(elevator.getCurrentStorey());
@@ -82,7 +78,14 @@ public class HouseElevatorEngine extends Thread {
 				waitWhilePeopleGoIn();
 			}
 		}finally{
+			elevator.setCurrentStorey(-1);
 			house.getLock().unlock();
+		}
+	}
+	
+	private void waitWhilePeopleGoIn() throws InterruptedException{
+		while(elevator.getGoIn() != 0){
+			house.getElevatorCondition(elevator.getCurrentStorey()).await();
 		}
 	}
 	

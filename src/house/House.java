@@ -14,29 +14,23 @@ import elevator.Elevator;
 
 public class House {
 	private JFrame mainFraim = new JFrame("house elevator");
+	private ConstVariable cv = ConstVariable.getConstVariable();
 	private ArrayList<Elevator> elevators = new ArrayList<>();
 	private ArrayList<Storey> storeys = new ArrayList<>();
 	private ArrayList<People> peoples = new ArrayList<>();
 	private ArrayList<Condition> elevatorCondirion = new ArrayList<>();
 	private ArrayList<Condition> peopleCondition = new ArrayList<>();
 	private ArrayList<Condition> peopelWaitInElevator = new ArrayList<>();
-	private ConstVariable cv;
 	private Lock lock = new ReentrantLock();
 	private Condition theEnd = lock.newCondition();
 //	private Condition peopleCondition = lock.newCondition();
 	//для людей которые уже приехали на свой этаж и вышли из лифта
 	
 	
-	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ConstVariable cv,
-			ArrayList<Storey> storeys){
+	public House(ArrayList<Elevator> elevators, ArrayList<People> peoples, ArrayList<Storey> storeys){
 		this.elevators = elevators;
 		this.peoples = peoples;
-		this.cv = cv;
 		this.storeys = storeys;
-	}
-	
-	public ConstVariable getConstVariable(){
-		return cv;
 	}
 	
 	public Condition getTheEnd() {
