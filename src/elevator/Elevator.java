@@ -14,7 +14,7 @@ public class Elevator{
 	private ConstVariable cv = ConstVariable.getConstVariable();
 	private String elevatorName;
 	private int direction = 0;
-	private final int MAX_CAPACITY = 5;
+	private static final int MAX_CAPACITY = 5;
 	private int elevatorCapacity = 0;
 	private int id;
 	//координата при достижении который человек считаеться вошедшим в лифт
@@ -28,12 +28,12 @@ public class Elevator{
 	private int goOutElevator;
 	private JLabel label = new JLabel("0");
 	
-	public Elevator(int x, String elevatorName){
+	public Elevator(String elevatorName){
 		this.elevatorName = elevatorName;
 		this.goInElevator = 0;
 		this.goOutElevator = 0;
-		this.elevatorInside = x;
-		elevatorPanel.setBounds(x, cv.getFRAME_WIDTH(), cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
+		elevatorPanel.setBounds(cv.elevatorStartPosition(), cv.getFRAME_WIDTH(), cv.getELEVATOR_HEIGHT(), cv.getELEVATOR_WIDTH());
+		this.elevatorInside = elevatorPanel.getX();
 		elevatorPanel.setBackground(Color.gray);
 		label.setForeground(Color.white);
 		elevatorPanel.add(label);

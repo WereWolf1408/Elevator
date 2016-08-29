@@ -16,6 +16,7 @@ public class ConstVariable {
 	private final int ELEVATOR_WIDTH = 60;
 	private final int PEOPLE_HEIGHT = 20;
 	private final int PEOPLE_WIDTH = 20;
+	private int elevatorStartPosition = 60;
 	
 	private ConstVariable(){}
 	
@@ -28,6 +29,11 @@ public class ConstVariable {
 	
 	public void setHouseStorey(int count){
 		storeyCount = count;
+	}
+	
+	public int elevatorStartPosition(){
+		elevatorStartPosition += 60;
+		return elevatorStartPosition;
 	}
 	
 	public int getStoreyHeight(int storey){

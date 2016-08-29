@@ -32,8 +32,11 @@ public class BuildHouse {
 	}
 	
 	public ArrayList<Elevator> createElevators(int count){
-		elevators.add(new Elevator(200, "elevator1", 530));
-//		elevators.add(new Elevator(300, "elevator3", 0));
+		String elevatorName = null;
+		for(int i = 0; i < count; i++){
+			elevatorName = "Elevator" + i;
+			elevators.add(new Elevator(elevatorName));
+		}
 		return elevators;
 	}
 	
